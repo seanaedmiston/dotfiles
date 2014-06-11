@@ -1,0 +1,43 @@
+[user]
+	name = seanaedmiston
+	email = seane999@gmail.com
+[alias]
+	br = branch
+	cm = commit
+	co = checkout
+	diffc = diff --cached --unified=10
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lold = log --graph --decorate --pretty=oneline --abbrev-commit origin/devel..
+	ss = status -s
+	st = status
+	un = reset HEAD
+	wc = whatchanged
+	wdiff = diff --color-words
+	wdiffc = diff --cached --unified=10 --color-words
+	la = log --graph --decorate --pretty=oneline --abbrev-commit --format=\"%at %h %d %s\" --all
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[color "diff"]
+	frag = magenta bold
+	meta = white bold
+	new = green
+	old = red
+[color "status"]
+	added = green bold
+	changed = red bold
+	untracked = cyan bold
+[core]
+	pager = less -FXRS -x3
+	whitespace = cr-at-eol
+	excludesfile = /home/sean/.gitignore_global
+[gui]
+	fontdiff = -family 'Courier New' -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+[push]
+	default = upstream

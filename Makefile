@@ -7,9 +7,7 @@ install-vim:
 	ln -s ~/.vim/vimrc ~/.vimrc
 	git submodule init
 	git submodule update
-	if [! -d ~/.vim/sessions ] then
-		mkdir ~/.vim/sessions
-	fi
+	if [ ! -d ~/.vim/sessions ]; then mkdir ~/.vim/sessions; fi
 
 install-bash:
 #	rm -f ~/.bashrc

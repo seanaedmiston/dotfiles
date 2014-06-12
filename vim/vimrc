@@ -26,9 +26,8 @@ if has("gui_running")
   colorscheme solarized
   set guifont=Ubuntu\ Mono
 else
-  let g:solarized_termcolors=256
   set background=dark
-  colorscheme solarized
+  colorscheme slate
 endif
 
 let g:airline#extensions#whitespace#checks = []

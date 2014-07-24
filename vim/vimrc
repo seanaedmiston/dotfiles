@@ -23,11 +23,12 @@ call pathogen#helptags()
 syntax on
 if has("gui_running")
    colorscheme solarized
-   set guifont=Ubuntu\ Mono
    if has("mac")
-     set background=light
+   set guifont=Ubuntu\ Mono:h14
+      set background=light
    else
-     set background=dark
+   set guifont=Ubuntu\ Mono:h12
+      set background=dark
    endif
 else
   set background=dark

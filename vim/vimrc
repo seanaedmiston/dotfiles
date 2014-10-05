@@ -24,10 +24,10 @@ syntax on
 if has("gui_running")
    colorscheme solarized
    if has("mac")
-   set guifont=Ubuntu\ Mono:h14
+      set guifont="Ubuntu Mono":h14
       set background=light
    else
-   set guifont=Ubuntu\ Mono:h12
+      set guifont=Ubuntu\ Mono\ 11
       set background=dark
    endif
 else

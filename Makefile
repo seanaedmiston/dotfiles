@@ -10,8 +10,10 @@ install-vim:
 	if [ ! -d ~/.vim/sessions ]; then mkdir ~/.vim/sessions; fi
 
 install-bash:
-#	rm -f ~/.bashrc
-#	ln -s `pwd`/bash/bashrc ~/.bashrc
+	rm -f ~/.bashrc
+	rm -f ~/.bash_profile
+	ln -s `pwd`/bash/bashrc ~/.bashrc
+	ln -s `pwd`/bash/bash_profile ~/.bash_profile
 
 install-git:
 	rm -f ~/.gitconfig

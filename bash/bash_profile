@@ -1,0 +1,6 @@
+
+# added by Anaconda 2.1.0 installer
+# export PATH="/Users/seanedmiston/anaconda/bin:$PATH"
+
+source /Users/seanedmiston/.iterm2_shell_integration.bash
+source .bashrc

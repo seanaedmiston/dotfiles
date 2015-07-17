@@ -1,0 +1,2 @@
+#USe vi mode for editing
+set -o vi

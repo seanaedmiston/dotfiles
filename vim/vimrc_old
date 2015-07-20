@@ -1,0 +1,264 @@
+ " My vimrc
+ " Heavily adapted from Armin Ronacher's
+ " https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
+ "
+
+set nocompatible
+set backspace=indent,eol,start
+
+" Menus I like :-)
+" This must happen before the syntax system is enabled
+" aunmenu Help.
+" aunmenu Window.
+let no_buffers_menu=1
+set mousemodel=popup
+
+" Pathogen
+call pathogen#infect()
+call pathogen#helptags()
+
+" Enable Syntax Colors
+"  in GUI mode we go with fruity and Monaco 13
+"  in CLI mode myterm looks better (fruity is GUI only)
+syntax on
+if has("gui_running")
+   colorscheme solarized
+   if has("mac")
+      set guifont="Ubuntu Mono":h14
+      set background=light
+   else
+      set guifont=Ubuntu\ Mono\ 11
+      set background=dark
+   endif
+else
+  set background=dark
+  colorscheme slate
+endif
+
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#checks = ['indent','trailing']
+" let g:airline_section_y = airline#section#create_right(['%{printf("%s%s",&fenc,&ff!="unix"?":".&ff:"")}'])
+let g:airline_section_z = airline#section#create_right(['%3l/%L:%2c'])
+" let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#ctrlp#color_template = 'replace'
+let g:airline#extensions#syntastic#enabled = 1
+
+
+" The PC is fast enough, do syntax highlight syncing from start
+autocmd BufEnter * :syntax sync fromstart
+
+" Move Backup Files to ~/.vim/sessions
+set backupdir=~/.vim/sessions
+set dir=~/.vim/sessions
+
+" Remember cursor position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+" Enable hidden buffers
+set hidden
+
+" enable automatic title setting for terminals
+set title
+set titleold="Terminal"
+set titlestring=%F
+
+" Enable filetype plugins and indention
+filetype plugin indent on
+
+" activate a permanent ruler and disable Toolbar, and add line
+" highlightng as well as numbers.
+" And disable the sucking pydoc preview window for the omni completion
+" also highlight current line and disable the blinking cursor.
+set ruler
+" set guioptions-=T
+" set completeopt-=preview
+set gcr=a:blinkon0
+if has("gui_running")
+  set cursorline
+endif
+set ttyfast
+
+" customize the wildmenu
+set wildmenu
+set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
+set wildmode=list:full
+
+" NERDTree on <leader>t and <leader>f
+nnoremap <leader>t :NERDTree<CR>
+nnoremap <leader>f :NERDTreeFind<CR>
+
+" Quit window on <leader>q
+nnoremap <leader>q :q<CR>
+
+" toggle between number and relative number on ,l
+nnoremap <leader>l :call ToggleRelativeAbsoluteNumber()<CR>
+function! ToggleRelativeAbsoluteNumber()
+  if &relativenumber
+    set norelativenumber
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
+
+" gundo
+nnoremap <Leader>u :GundoToggle<CR>
+
+" Syntax sync
+nnoremap <Leader>i :syntax sync fromstart<CR>
+
+" Make the command line two lines high and change the statusline display to
+" something that looks useful.
+set cmdheight=2
+set laststatus=2
+set statusline=[%l/%L,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
+set showcmd
+set number
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set noerrorbells
+
+" python support
+" --------------
+"  don't highlight exceptions and builtins. I love to override them in local
+"  scopes and it sucks ass if it's highlighted then. And for exceptions I
+"  don't really want to have different colors for my own exceptions ;-)
+autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4
+\ formatoptions=croqj softtabstop=4 textwidth=74 comments=:#\:,:#
+let python_highlight_all=1
+let python_highlight_exceptions=0
+let python_highlight_builtins=0
+let python_slow_sync=1
+
+let g:syntastic_python_checkers=['flake8', 'python']
+
+" ruby support
+" ------------
+autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" go support
+" ----------
+autocmd BufNewFile,BufRead *.go setlocal ft=go
+autocmd FileType go setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+
+" php support
+" -----------
+autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+
+" template language support (SGML / XML too)
+" ------------------------------------------
+" and disable that stupid html rendering (like making stuff bold etc)
+autocmd FileType xml,html,htmljinja,htmldjango setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType html,htmljinja,htmldjango imap <buffer> <c-e> <Plug>SparkupExecute
+autocmd FileType html,htmljinja,htmldjango imap <buffer> <c-l> <Plug>SparkupNext
+autocmd FileType html setlocal commentstring=<!--\ %s\ -->
+autocmd FileType htmljinja setlocal commentstring={#\ %s\ #}
+let html_no_rendering=1
+let g:syntastic_html_checkers = []
+
+" GLSL
+" ----
+autocmd bufnewfile,bufread *.frag,*.fragment,*.vert,*.vertex,*.shader,*.glsl setlocal ft=glsl
+autocmd FileType glsl setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType glsl setlocal commentstring=//\ %s
+
+" Verilog
+" -------
+autocmd FileType verilog setlocal expandtab shiftwidth=2 tabstop=4 softtabstop=2
+
+" CSS
+" ---
+autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType css setlocal commentstring=/*\ %s\ */
+autocmd FileType css noremap <buffer> <leader>r :call CSSBeautify()<cr>
+
+" Less
+" ----
+autocmd FileType less setlocal expandtab shiftwidth=2 tabstop=4 softtabstop=2
+
+" Java
+" ----
+autocmd FileType java setlocal shiftwidth=2 tabstop=4 softtabstop=2 expandtab
+autocmd FileType java setlocal commentstring=//\ %s
+
+" rst
+" ---
+autocmd BufNewFile,BufRead *.txt setlocal ft=rst
+autocmd FileType rst setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+\ formatoptions+=nqt textwidth=74
+
+" C#
+autocmd FileType cs setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType cs setlocal commentstring=//\ %s
+
+" C/Obj-C/C++
+autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType objc setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType c setlocal commentstring=/*\ %s\ */
+autocmd FileType cpp,objc setlocal commentstring=//\ %s
+let c_no_curly_error=1
+let g:syntastic_cpp_include_dirs = ['include', '../include']
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_c_include_dirs = ['include', '../include']
+let g:syntastic_c_compiler = 'clang'
+
+" Octave/Matlab
+autocmd FileType matlab setlocal tabstop=4 softtabstop=2 shiftwidth=2 expandtab
+
+" vim
+" ---
+autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=4 softtabstop=2
+
+" Javascript
+" ----------
+autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal commentstring=//\ %s
+autocmd FileType javascript noremap <buffer> <leader>r :call JsBeautify()<cr>
+autocmd FileType javascript let b:javascript_fold = 0
+let javascript_enable_domhtmlcss=1
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_jshint_args='--config ~/.vim/extern-cfg/jshint.json'
+
+" JSON
+" ----
+autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" Typescript
+" ----------
+let g:syntastic_typescript_checkers = []
+
+" CoffeeScript
+" ------------
+autocmd FileType coffee setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" D
+" -
+autocmd FileType d setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+
+" cmake support
+" -------------
+autocmd BufNewFile,BufRead CMakeLists.txt setlocal ft=cmake
+
+" Erlang support
+" --------------
+autocmd FileType erlang setlocal expandtab shiftwidth=2 tabstop=4 softtabstop=2
+autocmd BufNewFile,BufRead rebar.config setlocal ft=erlang
+
+" YAML support
+" ------------
+autocmd FileType yaml setlocal expandtab shiftwidth=2 tabstop=4 softtabstop=2
+autocmd BufNewFile,BufRead *.sls setlocal ft=yaml
+
+" Lua support
+" -----------
+autocmd FileType lua setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+" rust
+" ----
+autocmd FileType rust setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType rust setlocal commentstring=//\ %s

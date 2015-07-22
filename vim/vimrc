@@ -1,5 +1,8 @@
 " My vimrc
 
+" Pathogen
+execute pathogen#infect('bundle/{}')
+
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -33,3 +36,9 @@ set expandtab
 
 " Markdown support (not Modula-2)
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+" Colorscheme
+colorscheme darkblue
+
+" Wrap lines at words
+set linebreak

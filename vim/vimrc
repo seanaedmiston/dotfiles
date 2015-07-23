@@ -38,7 +38,8 @@ set expandtab
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Colorscheme
-colorscheme darkblue
+let g:solarized_termcolors = 256
+colorscheme solarized
 
 " Wrap lines at words
 set linebreak

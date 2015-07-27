@@ -52,6 +52,9 @@ set linebreak
 " Highlight cursor line
 set cursorline
 
+" Highlight column 80
+set colorcolumn=80
+
 " Enable hidden buffers
 set hidden
 
@@ -64,3 +67,11 @@ set ttyfast
 " Disable scrollbars
 set guioptions-=l
 set guioptions-=R
+set guioptions-=L
+set guioptions-=r
+
+" Customise pencil
+" let g:airline_section_x = '%{PencilMode()}'
+
+" Some leader shortcuts
+nnoremap <leader>g :Goyo<CR>
